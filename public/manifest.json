@@ -1,25 +1,41 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
+  "name": "DaoDao Extension",
+  "description": "DaoDao chrome extension",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "permissions": ["storage"],
+  "host_permissions": ["*://*/*"],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Dao Dao 阿學",
+    "default_icon": {
+      "16": "logo192.png",
+      "32": "logo192.png",
+      "48": "logo192.png",
+      "128": "logo192.png"
+    }
+  },
+  "content_scripts": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "matches": ["https://*/*"],
+      "js": ["static/js/content.js"],
+      "run_at": "document_end",
+      "all_frames": true
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background": {
+    "service_worker": "static/js/background.js"
+  },
+  "icons": {
+    "16": "logo192.png",
+    "32": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [],
+      "matches": ["https://*/*"]
+    }
+  ]
 }
