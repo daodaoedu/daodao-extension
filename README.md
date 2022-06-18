@@ -1,4 +1,21 @@
-# Getting Started with Create React App
+# Google Extension
+
+## 打包順序
+
+1. 打包
+```
+```
+
+
+```
+
+```
+
+
+<!-- npx webpack-extension-reloader --config craco.config.js --port 9080 --no-page-reload --content-script content.js --background background.js  -->
+
+<!-- --extension-page popup.js -->
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

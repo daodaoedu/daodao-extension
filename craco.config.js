@@ -1,3 +1,5 @@
+const ExtensionReloader = require('webpack-extension-reloader');
+
 module.exports = {
     webpack: {
         configure: (webpackConfig, {env, paths}) => {
@@ -16,7 +18,19 @@ module.exports = {
                 optimization: {
                     ...webpackConfig.optimization,
                     runtimeChunk: false,
-                }
+                },
+                plugins: [
+                    // https://github.com/rubenspgcavalcante/webpack-extension-reloader
+                    new ExtensionReloader({
+                        port: 9090, // Which port use to create the server
+                        reloadPage: true, // Force the reload of the page also
+                        entries: { // The entries used for the content/background scripts or extension pages
+                            contentScript: 'content-script',
+                            background: 'background',
+                            extensionPage: 'popup',
+                        }
+                    }),
+                ]
             }
         },
     }
