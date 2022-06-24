@@ -7,12 +7,12 @@ const NavWrapper = styled.nav`
   white-space:nowrap;
 
   .nav-img {
-    padding:20px;
+    padding:10px;
   }
   .nav-content{
     display:flex;
     justify-content:space-around;
-    padding:20px;
+    padding:10px;
   }
   .nav-a{
     display:flex;
@@ -20,17 +20,17 @@ const NavWrapper = styled.nav`
   }
   .nav-a a{
     display:bolck;
-    font-size:30px;
+    font-size:20px;
     color:white;
     text-decoration:none;
-    padding-left:10px;
-    padding-right:10px;
+    padding-left:5px;
+    padding-right:5px;
   }
   .nav-h2{
-    font-size:30px;
+    font-size:20px;
     display:flex;
     align-items:center;
-    padding:20px;
+    padding:10px;
   }
 `;
 
