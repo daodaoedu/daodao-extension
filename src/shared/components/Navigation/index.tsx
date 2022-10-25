@@ -48,9 +48,6 @@ const Navigation = () => {
           <a href="/">已新增資源</a>
         </div>
       </div>
-     <div className="nav-h2">
-       <h2>使用者：c8lawma</h2>
-     </div>
     </NavWrapper>
   );
 }
