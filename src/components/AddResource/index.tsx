@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -19,13 +19,19 @@ const AddResources = (
     setPrevStepList: any,
   }) => {
 
+  const isDisabled = useMemo(() => (
+    formData.feeType === ''
+    && formData.ageList.length === 0
+    && formData.about === '')
+    , [formData]);
+
   const onSubmit = useCallback(() => {
     setRootStep(MENU_STEP.ADD_RESOURCE_STEP2);
     setPrevStepList((state: any) => [...state, MENU_STEP.HOME]);
   }, [setRootStep, setPrevStepList]);
 
   return (
-    <Box>
+    <Box sx={{ padding: "24px", }}>
       <Box
         sx={{
           fontSize: "22px",
@@ -33,7 +39,7 @@ const AddResources = (
           lineHeight: "140%",
           color: "#293a3d",
           textAlign: "center",
-          margin: "24px 0 24px 0",
+
         }}>
         <Typography
           component="h1"
@@ -49,10 +55,10 @@ const AddResources = (
       </Box>
       <Box
         sx={{
-          margin: "0 24px 24px 24px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: "20px",
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -67,7 +73,7 @@ const AddResources = (
           >
             <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>名稱</Typography>
             <TextField
-              sx={{ width: "100%", marginTop: "10px" }}
+              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
               value={formData.name}
               onChange={(event) => setFormData((state: any) => ({ ...state, name: event.target.value }))}
             />
@@ -100,7 +106,7 @@ const AddResources = (
                   />
                 ))
               }
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -135,7 +141,7 @@ const AddResources = (
                   />
                 ))
               }
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -150,6 +156,7 @@ const AddResources = (
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: "24px",
         }}
       >
         <Button
@@ -161,8 +168,12 @@ const AddResources = (
             borderRadius: "20px",
             border: "#ffffff",
             boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
+            "&[disabled]": {
+              backgroundColor: "#eee !important",
+            }
           }}
           onClick={onSubmit}
+        // disabled={isDisabled}
         >
           下一步
         </Button>

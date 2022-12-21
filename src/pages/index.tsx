@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import StepWizard from 'react-step-wizard';
 import { MENU_STEP } from "../constants/form";
-import AddResources from "../components/AddResources";
-import AddResourcesStep2 from "../components/AddResourcesStep2";
+import Profile from "../components/Profile";
+import Login from "../components/Login";
+import AddResource from "../components/AddResource";
+import AddResourceStep2 from "../components/AddResourceStep2";
 import PersonalInfo from "../components/PersonalInfo";
+import FinishedAddResource from "../components/FinishedAddResource";
 import { Box } from "@mui/material";
 import Navigation from "../shared/components/Navigation";
 import Footer from "../shared/components/Footer";
@@ -16,10 +19,20 @@ const HomePage = () => {
       name: string,
       categoryList: { label: string; key: string; value: string; image: string; }[],
       areaList: { label: string; key: string; value: string; image: string; }[],
+      ageList: [],
+      feeType: string,
+      about: string,
+      userName: string,
+      email: string,
     }>({
       name: "",
       categoryList: [],
       areaList: [],
+      ageList: [],
+      feeType: "",
+      about: "",
+      userName: "",
+      email: "",
     });
 
   return (
@@ -34,13 +47,29 @@ const HomePage = () => {
     >
       <Navigation />
       <StepWizard initialStep={rootStep} isLazyMount key={rootStep}>
-        <AddResources
+        {/* global step */}
+        <Profile
+          formData={formData}
+          prevStepList={prevStepList}
+          setFormData={setFormData}
+          setRootStep={setRootStep}
+          setPrevStepList={setPrevStepList}
+        />
+        <Login
+          formData={formData}
+          prevStepList={prevStepList}
+          setFormData={setFormData}
+          setRootStep={setRootStep}
+          setPrevStepList={setPrevStepList}
+        />
+        {/* page step */}
+        <AddResource
           formData={formData}
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
         />
-        <AddResourcesStep2
+        <AddResourceStep2
           formData={formData}
           prevStepList={prevStepList}
           setFormData={setFormData}
@@ -49,11 +78,20 @@ const HomePage = () => {
         />
         <PersonalInfo
           formData={formData}
+          prevStepList={prevStepList}
           setFormData={setFormData}
           setRootStep={setRootStep}
+          setPrevStepList={setPrevStepList}
+        />
+        <FinishedAddResource
+          formData={formData}
+          prevStepList={prevStepList}
+          setFormData={setFormData}
+          setRootStep={setRootStep}
+          setPrevStepList={setPrevStepList}
         />
       </StepWizard>
-      <Footer />
+      <Footer setRootStep={setRootStep} currentStep={rootStep} setPrevStepList={setPrevStepList} />
     </Box>
   );
 };

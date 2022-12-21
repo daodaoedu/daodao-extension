@@ -6,6 +6,11 @@ import GlobalStyles from "./shared/styles/Global";
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from "./constants/config";
+import { Toaster } from 'react-hot-toast';
+
+initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +19,21 @@ ReactDOM.render(
       <GlobalStyles />
       {/* mui normalize css */}
       <CssBaseline />
+      <Toaster
+        position="top-center"
+        containerStyle={{ background: 'none', marginTop: '80px' }}
+        toastOptions={{
+          style: {
+            color: '#16b9b3',
+            border: '1px solid #16b9b3',
+            marginTop: '50px',
+          },
+          iconTheme: {
+            primary: '#16b9b3',
+            secondary: '#16b9b3',
+          },
+        }}
+      />
       <App />
     </ThemeProvider>
   </React.StrictMode>,

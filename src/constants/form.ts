@@ -86,7 +86,94 @@ export const CATEGORIES = [
 ];
 
 export const MENU_STEP = {
-    HOME: 1,
-    ADD_RESOURCE_STEP2: 2,
-    ADD_PERSONAL_INFO: 3,
+  PROFILE: 1,
+  LOGIN: 2,
+  HOME: 3,
+  ADD_RESOURCE_STEP2: 4,
+  ADD_PERSONAL_INFO: 5,
+  FINISHED_ADD_RESOURCE: 6,
 };
+
+export const FEE = [
+  {
+    label: '免費',
+    value: 'free',
+  },
+  {
+    label: '部分免費',
+    value: 'partly-free',
+  },
+  {
+    label: '需付費',
+    value: 'pay',
+  },
+];
+
+export const LEARNIGN_STEP = [
+  {
+    label: '學齡前',
+    value: 'preschool',
+  },
+  {
+    label: '國小',
+    value: 'elementary',
+  },
+  {
+    label: '國高中',
+    value: 'junior-high-and-high',
+  },
+  {
+    label: '大學',
+    value: 'above-university',
+  },
+];
+
+export const EDUCATION_STEP = [
+  {
+    label: '學齡前',
+    value: 'preschool',
+  },
+  {
+    label: '國小低年級',
+    value: 'elementary-junior',
+  },
+  {
+    label: '國小中年級',
+    value: 'elementary-middle',
+  },
+  {
+    label: '國小高年級',
+    value: 'elementary-senior',
+  },
+  {
+    label: '國中',
+    value: 'junior-high',
+  },
+  {
+    label: '高中',
+    value: 'high',
+  },
+  {
+    label: '大學',
+    value: 'university',
+  },
+  {
+    label: '其他',
+    value: 'other',
+  },
+];
+
+export const GENDER = [
+  {
+    label: '男性',
+    value: 'male',
+  },
+  {
+    label: '女性',
+    value: 'female',
+  },
+  {
+    label: '其他',
+    value: 'other',
+  },
+];

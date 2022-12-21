@@ -1,7 +1,13 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import React, { useImperativeHandle, useRef, useState, useCallback } from "react";
+import React, { useImperativeHandle, useRef, useState, useCallback, useEffect } from "react";
 import { CATEGORIES, MENU_STEP } from "../../constants/form";
+import { firebaseConfig } from "../../constants/config";
+import { initializeApp } from 'firebase/app';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 
 const PersonalInfo = (
   {
@@ -17,11 +23,38 @@ const PersonalInfo = (
     setRootStep: any,
     setPrevStepList: any,
   }) => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  const [user] = useAuthState(auth);
+  const onLogout = useCallback(() => {
 
-  const onSubmit = useCallback(() => {
-    setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
-    setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO]);
+    const auth = getAuth();
+    auth.signOut()
+      .then((result) => {
+        toast.success("登出成功！");
+        setRootStep(MENU_STEP.HOME);
+        setPrevStepList((state: any) => []);
+      })
+      .catch((error) => {
+        console.log('error', error);
+        toast.error('登出失敗', {
+          style: {
+            marginTop: '70px',
+          },
+        });
+      });
+
+
+    // setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
+    // setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO]);
   }, [setPrevStepList, setRootStep]);
+
+  useEffect(() => {
+    setUserName(user?.displayName as string);
+    setEmail(user?.email as string);
+  }, [user]);
 
   return (
     <Box sx={{ padding: "24px", }}>
@@ -66,24 +99,12 @@ const PersonalInfo = (
             color: "#293A3D",
           }}
         >
-          個人資訊
+          個人檔案
         </Typography>
       </Box>
-      <Box sx={{ margin: "20px" }}>
-        <Typography
-          sx={{
-            fontWeight: 400,
-            fontSize: "14px",
-            lineHeight: "140%",
-            color: "#536166",
-          }}>
-          歡迎留下你的個人資訊，你的名稱將會顯示在資源頁面上，讓其他使用者能認識身為貢獻者的你。
-        </Typography>
-      </Box>
-
       <Box
         component="ul"
-        sx={{ width: '100%' }}
+        sx={{ width: '100%', marginTop: "20px" }}
       >
         <Box
           component="li"
@@ -94,11 +115,12 @@ const PersonalInfo = (
             alignItems: "flex-start"
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的名稱</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>個人資訊</Typography>
           <TextField
+            disabled
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
-            value={formData.userName}
-            onChange={(event) => setFormData((state: any) => ({ ...state, userName: event.target.value }))}
+            value={userName}
+            onChange={(event) => setUserName((event.target.value))}
           />
         </Box>
         <Box
@@ -113,35 +135,36 @@ const PersonalInfo = (
         >
           <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的 E-mail</Typography>
           <TextField
+            disabled
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
-            value={formData.email}
-            onChange={(event) => setFormData((state: any) => ({ ...state, email: event.target.value }))}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </Box>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "24px",
-        }}
-      >
-        <Button
+        <Box
           sx={{
-            width: "320px",
-            height: "40px",
-            backgroundColor: "#16b9b3 !important",
-            color: "#ffffff",
-            borderRadius: "20px",
-            border: "#ffffff",
-            boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "24px",
           }}
-          onClick={onSubmit}
         >
-          下一步
-        </Button>
+          <Button
+            sx={{
+              width: "320px",
+              height: "40px",
+              color: "#1F4645",
+              fontSize: "16px",
+              borderRadius: "20px",
+              border: "#ffffff",
+              boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
+              backgroundColor: "#fff !important",
+            }}
+            onClick={onLogout}
+          >
+            登出
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -2,8 +2,11 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import React, { useImperativeHandle, useRef, useState, useCallback } from "react";
 import { CATEGORIES, MENU_STEP } from "../../constants/form";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 
-const AddResourcesStep2 = (
+const Login = (
   {
     formData,
     prevStepList,
@@ -12,21 +15,42 @@ const AddResourcesStep2 = (
     setPrevStepList,
   }: {
     formData: any,
-    prevStepList: string[],
+    prevStepList: any,
     setFormData: (state: any) => any,
     setRootStep: any,
     setPrevStepList: any,
   }) => {
-
-  console.log("prevStepList: ", prevStepList);
-
-  const onSubmit = useCallback(() => {
-    setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
-    setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
-  }, [setPrevStepList, setRootStep]);
+  const provider = new GoogleAuthProvider();
+  const onLogin = () => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // The signed-in user info.
+        // console.log('result', result);
+        const { displayName } = result.user;
+        const db = getFirestore();
+        const docRef = doc(db, 'user', result?.user?.uid);
+        getDoc(docRef).then((docSnap) => {
+          toast.success(`歡迎登入！ ${displayName}`);
+          setRootStep(MENU_STEP.HOME);
+          setPrevStepList((state: any) => []);
+        });
+      })
+      .catch((error) => {
+        console.log('error', error);
+        toast.error('登入失敗', {
+          style: {
+            marginTop: '70px',
+          },
+        });
+      });
+  };
 
   return (
-    <Box>
+    <Box sx={{ padding: "24px", }}>
       <Box
         sx={{
           position: "relative",
@@ -35,7 +59,6 @@ const AddResourcesStep2 = (
           lineHeight: "140%",
           color: "#293a3d",
           textAlign: "center",
-          margin: "24px 0 24px 0",
         }}>
         <Box
           onClick={() => {
@@ -45,7 +68,7 @@ const AddResourcesStep2 = (
           }}
           sx={{
             position: 'absolute',
-            left: "16px",
+            left: "0px",
             top: "0px",
             display: "flex",
             justifyContent: "center",
@@ -69,34 +92,37 @@ const AddResourcesStep2 = (
             color: "#293A3D",
           }}
         >
-          新增學習資源
+          登入
         </Typography>
       </Box>
-
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: "24px",
         }}
       >
         <Button
           sx={{
             width: "320px",
             height: "40px",
-            backgroundColor: "#16b9b3 !important",
-            color: "#ffffff",
+            // backgroundColor: "#16b9b3 !important",
+            color: "#1F4645",
+            fontSize: "16px",
             borderRadius: "20px",
             border: "#ffffff",
             boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
+            backgroundColor: "#fff !important",
           }}
-          onClick={onSubmit}
+          onClick={onLogin}
+        // disabled={isDisabled}
         >
-          下一步
+          Google 登入
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default AddResourcesStep2;
+export default Login;
