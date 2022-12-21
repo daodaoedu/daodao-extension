@@ -1,54 +1,39 @@
 import styled from "@emotion/styled";
+import { Box } from "@mui/material";
 
-const NavWrapper = styled.nav`
-  background-color: #16b9b3;
-  display: flex;
-  justify-content:space-between;
-  white-space:nowrap;
-
-  .nav-img {
-    padding:10px;
-  }
-  .nav-content{
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
-  }
-  .nav-a{
-    display:flex;
-    align-items:center;
-  }
-  .nav-a a{
-    display:bolck;
-    font-size:20px;
-    color:white;
-    text-decoration:none;
-    padding-left:5px;
-    padding-right:5px;
-  }
-  .nav-h2{
-    font-size:20px;
-    display:flex;
-    align-items:center;
-    padding:10px;
-  }
-`;
 
 const Navigation = () => {
-  console.log('Navigation');
-  
   return (
-    <NavWrapper>
-      <div className="nav-content">
-        <div className="nav-img">
-          <img src="https://i.imgur.com/YNPpAgW.png" alt="logo" />
-        </div>
-        <div className="nav-a">
-          <a href="/">新增資源</a>
-          <a href="/">已新增資源</a>
-        </div>
-      </div>
-    </NavWrapper>
+    <Box
+      sx={{
+        background: "#293a3d",
+        padding: "11px 0 11px 31px",
+        borderRadius: "16px 16px 0 0",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        component="img"
+        sx={{
+          width: "68px",
+        }}
+        src="img/daodao_logo.png"
+        alt="daodao_logo"
+      />
+      <Box component="a" href="#">
+        <Box
+          component="img"
+          sx={{
+            width: "20px",
+            margin: "0 21.76px 0 0",
+          }}
+          src="/img/icon-cancel.svg"
+          alt="icon_cancer"
+        />
+      </Box>
+    </Box>
   );
 }
 
