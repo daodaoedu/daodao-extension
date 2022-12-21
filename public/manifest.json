@@ -1,18 +1,18 @@
 {
-  "name": "DaoDao Extension",
-  "description": "DaoDao chrome extension",
-  "version": "0.1.0",
+  "name": "蒐集資源小幫手｜島島阿學",
+  "description": "幫你搜集網路上的學習資源",
+  "version": "0.8.0",
   "manifest_version": 3,
   "permissions": ["storage"],
   "host_permissions": ["*://*/*"],
   "action": {
     "default_popup": "index.html",
-    "default_title": "Dao Dao 阿學",
+    "default_title": "島島阿學",
     "default_icon": {
-      "16": "logo192.png",
-      "32": "logo192.png",
-      "48": "logo192.png",
-      "128": "logo192.png"
+      "16": "logo.png",
+      "32": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
     }
   },
   "content_scripts": [
@@ -27,10 +27,10 @@
     "service_worker": "static/js/background.js"
   },
   "icons": {
-    "16": "logo192.png",
-    "32": "logo192.png",
-    "48": "logo192.png",
-    "128": "logo192.png"
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
   },
   "web_accessible_resources": [
     {
