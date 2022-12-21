@@ -23,11 +23,6 @@ const Footer = () => {
             justifyContent: "flex-end",
             alignItems: "center",
             padding: "5px",
-            "&:hover": {
-              backgroundColor: "#dbdbdb",
-              borderRadius: "4px",
-              marginLeft: "272px"
-            }
           }}
         >
           <Box

@@ -1,6 +1,4 @@
-import styled from "@emotion/styled";
 import { Box } from "@mui/material";
-
 
 const Navigation = () => {
   return (
@@ -22,7 +20,7 @@ const Navigation = () => {
         src="img/daodao_logo.png"
         alt="daodao_logo"
       />
-      <Box component="a" href="#">
+      {/* <Box component="a" href="#">
         <Box
           component="img"
           sx={{
@@ -32,7 +30,7 @@ const Navigation = () => {
           src="/img/icon-cancel.svg"
           alt="icon_cancer"
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 }

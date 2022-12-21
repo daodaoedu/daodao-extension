@@ -88,4 +88,5 @@ export const CATEGORIES = [
 export const MENU_STEP = {
     HOME: 1,
     ADD_RESOURCE_STEP2: 2,
+    ADD_PERSONAL_INFO: 3,
 };
