@@ -3,7 +3,7 @@
   "description": "幫你搜集網路上的學習資源",
   "version": "0.8.0",
   "manifest_version": 3,
-  "permissions": ["storage"],
+  "permissions": ["storage", "identity", "identity.email"],
   "host_permissions": ["*://*/*"],
   "action": {
     "default_popup": "index.html",
@@ -37,5 +37,15 @@
       "resources": [],
       "matches": ["https://*/*"]
     }
-  ]
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://127.0.0.1/*",
+      "*://127.0.0.1:*/*",
+      "*://localhost:*/*",
+      "*://*.daoedu.tw/*",
+      "*://*.daoedu.tw:*/*",
+      "http://localhost:5000/*"
+    ]
+  }
 }
