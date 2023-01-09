@@ -88,6 +88,7 @@ const HomePage = ({
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
+          isLogin={isLogin}
         />
         <PersonalInfo
           formData={formData}

@@ -1,7 +1,7 @@
 import { ArrowBackIos } from "@mui/icons-material";
-import { Box, Typography, TextField, Button, TextareaAutosize } from "@mui/material";
-import React, { useImperativeHandle, useRef, useState, useCallback, useMemo } from "react";
-import { CATEGORIES, MENU_STEP, FEE, EDUCATION_STEP, LEARNIGN_STEP } from "../../constants/form";
+import { Box, Typography, Button, TextareaAutosize } from "@mui/material";
+import { useCallback, useMemo } from "react";
+import { MENU_STEP, FEE, LEARNIGN_STEP } from "../../constants/form";
 
 const AddResourcesStep2 = (
   {
@@ -10,13 +10,16 @@ const AddResourcesStep2 = (
     setFormData,
     setRootStep,
     setPrevStepList,
+    isLogin,
   }: {
     formData: any,
     prevStepList: string[],
     setFormData: (state: any) => any,
     setRootStep: any,
     setPrevStepList: any,
+    isLogin: any,
   }) => {
+
 
   const isDisabled = useMemo(() => (
     formData.name === ''
@@ -25,9 +28,14 @@ const AddResourcesStep2 = (
     , [formData]);
 
   const onSubmit = useCallback(() => {
-    setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
-    setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
-  }, [setPrevStepList, setRootStep]);
+    if (isLogin) {
+      setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
+      setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
+    } else {
+      setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
+      setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
+    }
+  }, [setPrevStepList, setRootStep, isLogin]);
 
   return (
     <Box sx={{ padding: "24px", }}>

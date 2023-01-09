@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button, Typography } from "@mui/material";
-import { CATEGORIES, MENU_STEP } from "../../constants/form";
+import { CATEGORIES, RESOURCE_TYPES, MENU_STEP } from "../../constants/form";
 
 const AddResources = (
   {
@@ -95,7 +95,7 @@ const AddResources = (
               onChange={(_, newValue) => {
                 setFormData((state: any) => ({ ...state, categoryList: newValue }));
               }}
-              options={CATEGORIES}
+              options={RESOURCE_TYPES}
               getOptionLabel={(option) => option.label}
               renderTags={(tagValue, getTagProps) =>
                 tagValue.map((option, index) => (
@@ -106,7 +106,7 @@ const AddResources = (
                   />
                 ))
               }
-              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
+              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff", cursor: "pointer" }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -141,7 +141,7 @@ const AddResources = (
                   />
                 ))
               }
-              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
+              sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff", cursor: "pointer" }}
               renderInput={(params) => (
                 <TextField
                   {...params}
