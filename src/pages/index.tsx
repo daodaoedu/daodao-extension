@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 import StepWizard from 'react-step-wizard';
 import { MENU_STEP } from "../constants/form";
 import Profile from "../components/Profile";
@@ -28,6 +28,9 @@ const HomePage = ({
       about: string,
       userName: string,
       email: string,
+      image: string,
+      url: string,
+      keywords: [],
     }>({
       name: "",
       categoryList: [],
@@ -37,7 +40,37 @@ const HomePage = ({
       about: "",
       userName: "",
       email: "",
+      image: "",
+      url: "",
+      keywords: [],
     });
+
+  useLayoutEffect(() => {
+    const ogTitle = document.head.querySelector('meta[property="og:title"]') as any;
+    const tagTitle = document.head.querySelector('title')?.textContent;
+    const ogSiteName = document.head.querySelector('meta[property="og:site_name"]') as any;
+    const ogDesc = document.head.querySelector('meta[property="og:description"]') as any;
+    const ogImage = document.head.querySelector('meta[property="og:image"]') as any;
+    const url = document.head.querySelector('meta[property="og:url"]') as any;
+    const keywords = document.head.querySelector('meta[name="keywords"]') as any;
+    const image = document.head.querySelector('meta[name="image"]') as any;
+    const websiteFormData = {
+      name: ogTitle?.content || ogSiteName || tagTitle || "",
+      categoryList: [],
+      areaList: [],
+      ageList: [],
+      feeType: "",
+      about: ogDesc || "",
+      userName: "",
+      email: "",
+      image: ogImage || image,
+      url: url || "",
+      keywords: (keywords || "").split(",").map((keyword: string) => keyword.trim()),
+    };
+    console.log('websiteFormData: ', websiteFormData);
+
+    setFormData(websiteFormData as any);
+  }, []);
 
   return (
     <Box
