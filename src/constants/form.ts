@@ -10,7 +10,7 @@ export const RESOURCE_TYPES = [
     value: 'app',
   },
     {
-    label: '組織 / 社群',
+    label: '組織/社群',
     key: 'group',
     value: 'group',
   },  {
@@ -18,19 +18,19 @@ export const RESOURCE_TYPES = [
     key: 'video',
     value: 'video',
   },  {
-    label: '提案 / 競賽',
+    label: '提案/競賽',
     key: 'project',
     value: 'project',
   },  {
-    label: '文章 / 書',
+    label: '文章/書',
     key: 'paragraph',
     value: 'paragraph',
   },  {
-    label: '工具 / 操作',
+    label: '工具/操作',
     key: 'tool',
     value: 'tool',
   },  {
-    label: '課程 / 活動',
+    label: '課程/活動',
     key: 'activity',
     value: 'activity',
   },

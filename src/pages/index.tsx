@@ -23,7 +23,7 @@ const HomePage = ({
       name: string,
       categoryList: { label: string; key: string; value: string; image: string; }[],
       areaList: { label: string; key: string; value: string; image: string; }[],
-      ageList: [],
+      ageList: { label: string; key: string; value: string; image: string; }[],
       feeType: string,
       about: string,
       userName: string,
@@ -65,10 +65,11 @@ const HomePage = ({
       email: "",
       image: ogImage || image,
       url: url || "",
-      keywords: (keywords || "").split(",").map((keyword: string) => keyword.trim()),
+      keywords: (keywords || "")
+        .split(",")
+        .map((keyword: string) => keyword.trim())
+        .filter((item: any) => item === ''),
     };
-    console.log('websiteFormData: ', websiteFormData);
-
     setFormData(websiteFormData as any);
   }, []);
 
@@ -122,6 +123,7 @@ const HomePage = ({
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
           isLogin={isLogin}
+          userInfo={userInfo}
         />
         <PersonalInfo
           formData={formData}
@@ -136,6 +138,8 @@ const HomePage = ({
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
+          userInfo={userInfo}
+          isLogin={isLogin}
         />
       </StepWizard>
       <Footer

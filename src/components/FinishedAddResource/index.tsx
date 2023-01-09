@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useLayoutEffect, useMemo } from "react";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -13,12 +13,16 @@ const FinishedAddResource = (
     setFormData,
     setRootStep,
     setPrevStepList,
+    userInfo,
+    isLogin,
   }: {
     formData: any,
     prevStepList: any,
     setFormData: (state: any) => any,
     setRootStep: any,
     setPrevStepList: any,
+    userInfo: any,
+    isLogin: any,
   }) => {
 
   const isDisabled = useMemo(() => (
@@ -27,7 +31,9 @@ const FinishedAddResource = (
     && formData.about === '')
     , [formData]);
 
-  const onSubmit = useCallback(() => {
+
+
+  const onClose = useCallback(() => {
     setRootStep(MENU_STEP.HOME);
     setPrevStepList((state: any) => []);
   }, [setRootStep, setPrevStepList]);
@@ -104,7 +110,7 @@ const FinishedAddResource = (
             boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
             backgroundColor: "#fff !important",
           }}
-          onClick={onSubmit}
+          onClick={onClose}
         // disabled={isDisabled}
         >
           關閉
