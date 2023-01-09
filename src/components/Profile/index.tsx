@@ -1,60 +1,71 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import React, { useImperativeHandle, useRef, useState, useCallback, useEffect } from "react";
+import React, { useState, useLayoutEffect, useMemo } from "react";
 import { CATEGORIES, MENU_STEP } from "../../constants/form";
-import { firebaseConfig } from "../../constants/config";
-import { initializeApp } from 'firebase/app';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import toast from 'react-hot-toast';
 
-const PersonalInfo = (
+const Profile = (
   {
     formData,
     prevStepList,
     setFormData,
     setRootStep,
     setPrevStepList,
+    userInfo,
+    setUserInfo,
+    isLogin,
+    setIsLogin,
+    isLoading,
+    setIsLoading,
   }: {
     formData: any,
     prevStepList: any,
     setFormData: (state: any) => any,
     setRootStep: any,
     setPrevStepList: any,
+    userInfo: any,
+    setUserInfo: any,
+    isLogin: any,
+    setIsLogin: any,
+    isLoading: any,
+    setIsLoading: any,
   }) => {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const firebaseApp = initializeApp(firebaseConfig);
-  const auth = getAuth(firebaseApp);
-  const [user] = useAuthState(auth);
-  const onLogout = useCallback(() => {
 
-    const auth = getAuth();
-    auth.signOut()
-      .then((result) => {
-        toast.success("登出成功！");
-        setRootStep(MENU_STEP.HOME);
-        setPrevStepList((state: any) => []);
-      })
-      .catch((error) => {
-        console.log('error', error);
-        toast.error('登出失敗', {
-          style: {
-            marginTop: '70px',
-          },
-        });
-      });
+  const { name, email } = useMemo(() => ({
+    name: userInfo?.name,
+    email: userInfo?.email,
+  }), [userInfo]);
 
-
-    // setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
-    // setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO]);
-  }, [setPrevStepList, setRootStep]);
-
-  useEffect(() => {
-    setUserName(user?.displayName as string);
-    setEmail(user?.email as string);
-  }, [user]);
+  const onLogout = () => {
+    chrome.identity.getAuthToken({ interactive: false }, (token) => {
+      fetch(`https://accounts.google.com/o/oauth2/revoke?token=${token}`, { method: "GET" })
+        .then(res => res.json())
+        .then(() => {
+          chrome.storage.sync.remove("userInfo");
+          chrome.identity.removeCachedAuthToken({ token });
+          toast.success("登出成功！");
+          setRootStep(MENU_STEP.HOME);
+          setPrevStepList((state: any) => []);
+          setUserInfo({
+            email: "",
+            family_name: "",
+            given_name: "",
+            id: "",
+            locale: "",
+            name: "匿名",
+            picture: "",
+            verified_email: true,
+          });
+          setIsLogin(false);
+        })
+    });
+    // console.log('error', error);
+    // toast.error('登出失敗', {
+    //   style: {
+    //     marginTop: '70px',
+    //   },
+    // });
+  };
 
   return (
     <Box sx={{ padding: "24px", }}>
@@ -119,8 +130,8 @@ const PersonalInfo = (
           <TextField
             disabled
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
-            value={userName}
-            onChange={(event) => setUserName((event.target.value))}
+            value={name}
+          // onChange={(event) => setUserName((event.target.value))}
           />
         </Box>
         <Box
@@ -138,7 +149,7 @@ const PersonalInfo = (
             disabled
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+          // onChange={(event) => setEmail(event.target.value)}
           />
         </Box>
         <Box
@@ -170,4 +181,4 @@ const PersonalInfo = (
   );
 };
 
-export default PersonalInfo;
+export default Profile;

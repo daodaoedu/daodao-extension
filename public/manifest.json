@@ -3,8 +3,8 @@
   "description": "幫你搜集網路上的學習資源",
   "version": "0.8.0",
   "manifest_version": 3,
-  "permissions": ["storage", "identity", "identity.email"],
-  "host_permissions": ["*://*/*"],
+  "permissions": ["storage", "identity"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "index.html",
     "default_title": "島島阿學",
@@ -38,14 +38,14 @@
       "matches": ["https://*/*"]
     }
   ],
-  "externally_connectable": {
-    "matches": [
-      "*://127.0.0.1/*",
-      "*://127.0.0.1:*/*",
-      "*://localhost:*/*",
-      "*://*.daoedu.tw/*",
-      "*://*.daoedu.tw:*/*",
-      "http://localhost:5000/*"
+  "oauth2": {
+    "client_id": "112115690745-6joltopaqr6jkvm96qb8hmfq9l8qlvmt.apps.googleusercontent.com",
+    "scopes": [
+      "profile",
+      "email",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
     ]
-  }
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlpogPhM8qRsl1ObMziFY90/nexY9eEqOB4berVnlC/m+92hItEc8y53jbXJvDJbCKdq5Lu6lleBK7kKu4RPCH2Bmzcyklkl2TjYfBYWbNnSAPNhVDljiKBpZr5QsvenNNRVe/Wk+aVXo8Vrm4r8UjtNtHq1GkC4DEhRYg867aN7Cj6vb5rWfoAVNFuehmM/TG9YsqjlT2qMIWZ3sefJpJph1bILXyID6zlB1IyF1u5KHIGFwSvssbF3GT08Ae4YOCSqWgRQa4iNU/GQgfBskP5mjlkRCRMKDuwA+djHE3cwcczP4EvYHItC1texdTbR4w2/P+nmwYCFPBCBe61FnrQIDAQAB"
 }

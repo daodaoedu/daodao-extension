@@ -1,9 +1,6 @@
 import { ArrowBackIos } from "@mui/icons-material";
-import { Box, Typography, TextField, Button } from "@mui/material";
-import React, { useImperativeHandle, useRef, useState, useCallback } from "react";
-import { CATEGORIES, MENU_STEP } from "../../constants/form";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Box, Typography, Button } from "@mui/material";
+import { MENU_STEP } from "../../constants/form";
 import toast from 'react-hot-toast';
 
 const Login = (
@@ -13,41 +10,46 @@ const Login = (
     setFormData,
     setRootStep,
     setPrevStepList,
+    setUserInfo,
+    setIsLogin,
   }: {
     formData: any,
     prevStepList: any,
     setFormData: (state: any) => any,
     setRootStep: any,
     setPrevStepList: any,
+    setUserInfo: any,
+    setIsLogin: any,
   }) => {
-  const provider = new GoogleAuthProvider();
+
   const onLogin = () => {
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        // console.log('result', result);
-        const { displayName } = result.user;
-        const db = getFirestore();
-        const docRef = doc(db, 'user', result?.user?.uid);
-        getDoc(docRef).then((docSnap) => {
-          toast.success(`歡迎登入！ ${displayName}`);
-          setRootStep(MENU_STEP.HOME);
-          setPrevStepList((state: any) => []);
-        });
-      })
-      .catch((error) => {
-        console.log('error', error);
-        toast.error('登入失敗', {
-          style: {
-            marginTop: '70px',
-          },
-        });
-      });
-  };
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+      console.log("token: ", token);
+      fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`, { method: "GET" })
+        .then(res => res.json())
+        .then((result) => {
+          console.log("result: ", result);
+          if (Boolean(result?.error)) {
+            throw new Error(result?.error);
+          } else {
+            setUserInfo(result);
+            setIsLogin(true);
+            chrome.storage.sync.set({
+              'userInfo': result
+            });
+            toast.success(`歡迎登入！ ${result?.name}`);
+            setRootStep(MENU_STEP.HOME);
+            setPrevStepList((state: any) => []);
+          }
+        })
+        .catch((error) => {
+          toast.error('登入失敗，請稍候重試');
+          console.log("error: ", error);
+          chrome.storage.sync.remove("userInfo");
+          chrome.identity.removeCachedAuthToken({ token });
+        })
+    })
+  }
 
   return (
     <Box sx={{ padding: "24px", }}>

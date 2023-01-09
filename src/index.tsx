@@ -6,11 +6,7 @@ import GlobalStyles from "./shared/styles/Global";
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from "./constants/config";
 import { Toaster } from 'react-hot-toast';
-
-initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>

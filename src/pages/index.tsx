@@ -11,7 +11,11 @@ import { Box } from "@mui/material";
 import Navigation from "../shared/components/Navigation";
 import Footer from "../shared/components/Footer";
 
-const HomePage = () => {
+const HomePage = ({
+  userInfo, setUserInfo, isLogin, setIsLogin, isLoading, setIsLoading
+}: {
+  userInfo: any, setUserInfo: any, isLogin: any, setIsLogin: any, isLoading: any, setIsLoading: any
+}) => {
   const [prevStepList, setPrevStepList] = useState([]);
   const [rootStep, setRootStep] = useState(MENU_STEP.HOME);
   const [formData, setFormData] = useState<
@@ -54,6 +58,13 @@ const HomePage = () => {
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+
         />
         <Login
           formData={formData}
@@ -61,6 +72,8 @@ const HomePage = () => {
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
+          setUserInfo={setUserInfo}
+          setIsLogin={setIsLogin}
         />
         {/* page step */}
         <AddResource
@@ -91,7 +104,17 @@ const HomePage = () => {
           setPrevStepList={setPrevStepList}
         />
       </StepWizard>
-      <Footer setRootStep={setRootStep} currentStep={rootStep} setPrevStepList={setPrevStepList} />
+      <Footer
+        setRootStep={setRootStep}
+        currentStep={rootStep}
+        setPrevStepList={setPrevStepList}
+        setUserInfo={setUserInfo}
+        userInfo={userInfo}
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
     </Box>
   );
 };
