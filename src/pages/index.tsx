@@ -150,6 +150,8 @@ const HomePage = ({
           setFormData={setFormData}
           setRootStep={setRootStep}
           setPrevStepList={setPrevStepList}
+          isLogin={isLogin}
+          userInfo={userInfo}
         />
         <FinishedAddResource
           formData={formData}

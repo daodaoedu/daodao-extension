@@ -2,6 +2,7 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, Button, TextareaAutosize } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import { MENU_STEP, FEE, LEARNIGN_STEP } from "../../constants/form";
+import toast from "react-hot-toast";
 
 const AddResourcesStep2 = (
   {
@@ -52,9 +53,7 @@ const AddResourcesStep2 = (
           "type": "multi_select",
           "multi_select": [
             {
-              "id": "f43aa841-9240-4f3a-8dc6-25fe7f96309f",
               "name": userName,
-              "color": "orange"
             }
           ]
         },
@@ -187,15 +186,6 @@ const AddResourcesStep2 = (
       },
       // "url": "https://www.notion.so/kagi-5d9590f27014431fb0c21ca4444b808e"
     };
-
-
-
-    console.log("payload: ", payload);
-    console.log("formData: ", formData);
-    console.log("userInfo: ", userInfo);
-
-
-
     return fetch("https://api.daoedu.tw/notion/addresource",
       {
         method: "POST",
@@ -209,10 +199,15 @@ const AddResourcesStep2 = (
 
   const onSubmit = useCallback(() => {
     if (isLogin) {
-      onSubmitForm().then(() => {
+      toast.promise(onSubmitForm().then(() => {
         setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
         setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
+      }), {
+        success: '新增資源成功！',
+        error: '新增資源失敗，請稍後重試',
+        loading: '新增資源中...',
       })
+
     } else {
       setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
       setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
