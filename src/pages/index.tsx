@@ -46,49 +46,50 @@ const HomePage = ({
     });
 
   useLayoutEffect(() => {
+    if (typeof chrome?.tabs?.query === 'function') {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        const tabId = tabs[0].id;
 
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const tabId = tabs[0].id;
-
-      // https://stackoverflow.com/questions/66549560/executescript-is-undefined-or-not-a-function-in-a-manifestv3-extension
-      // https://developer.chrome.com/docs/extensions/reference/scripting/
-      chrome.scripting.executeScript({
-        target: { tabId: tabId as any },
-        func: () => {
-          const docTitle = document.title;
-          const ogTitle = document.head.querySelector('meta[property="og:title"]')?.getAttribute("content") as any;
-          const tagTitle = document.head.querySelector('title')?.innerText;
-          const ogSiteName = document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content") as any;
-          const tagDesc = document.head.querySelector('meta[name="description"]')?.getAttribute("content") as any;
-          const ogDesc = document.head.querySelector('meta[property="og:description"]')?.getAttribute("content") as any;
-          const ogImage = document.head.querySelector('meta[property="og:image"]')?.getAttribute("content") as any;
-          const url = document.head.querySelector('meta[property="og:url"]')?.getAttribute("content") as any;
-          const keywords = document.head.querySelector('meta[name="keywords"]')?.getAttribute("content") as any;
-          const image = document.head.querySelector('meta[name="image"]')?.getAttribute("content") as any;
-          const websiteFormData = {
-            name: docTitle || tagTitle || ogTitle?.content || ogSiteName || "",
-            categoryList: [],
-            areaList: [],
-            ageList: [],
-            feeType: "",
-            about: tagDesc || ogDesc || "",
-            userName: "",
-            email: "",
-            image: ogImage || image,
-            url: url || "",
-            keywords: (keywords || "")
-              .split(",")
-              .map((keyword: string) => keyword.trim())
-              .filter((item: any) => item === ''),
-          };
-          return websiteFormData;
-        }
-      },
-        (payload) => {
-          console.log("payload:======", payload);
-          setFormData(payload[0].result as any);
-        });
-    });
+        // https://stackoverflow.com/questions/66549560/executescript-is-undefined-or-not-a-function-in-a-manifestv3-extension
+        // https://developer.chrome.com/docs/extensions/reference/scripting/
+        chrome.scripting.executeScript({
+          target: { tabId: tabId as any },
+          func: () => {
+            const docTitle = document.title;
+            const ogTitle = document.head.querySelector('meta[property="og:title"]')?.getAttribute("content") as any;
+            const tagTitle = document.head.querySelector('title')?.innerText;
+            const ogSiteName = document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content") as any;
+            const tagDesc = document.head.querySelector('meta[name="description"]')?.getAttribute("content") as any;
+            const ogDesc = document.head.querySelector('meta[property="og:description"]')?.getAttribute("content") as any;
+            const ogImage = document.head.querySelector('meta[property="og:image"]')?.getAttribute("content") as any;
+            const url = document.head.querySelector('meta[property="og:url"]')?.getAttribute("content") as any;
+            const keywords = document.head.querySelector('meta[name="keywords"]')?.getAttribute("content") as any;
+            const image = document.head.querySelector('meta[name="image"]')?.getAttribute("content") as any;
+            const websiteFormData = {
+              name: docTitle || tagTitle || ogTitle?.content || ogSiteName || "",
+              categoryList: [],
+              areaList: [],
+              ageList: [],
+              feeType: "",
+              about: tagDesc || ogDesc || "",
+              userName: "",
+              email: "",
+              image: ogImage || image,
+              url: url || "",
+              keywords: (keywords || "")
+                .split(",")
+                .map((keyword: string) => keyword.trim())
+                .filter((item: any) => item === ''),
+            };
+            return websiteFormData;
+          }
+        },
+          (payload) => {
+            console.log("payload:======", payload);
+            setFormData(payload[0].result as any);
+          });
+      });
+    }
   }, []);
 
   return (

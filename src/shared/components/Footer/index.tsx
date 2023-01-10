@@ -7,8 +7,9 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
   : {
     currentStep: any, setRootStep: any, setPrevStepList: any, userInfo: any, setUserInfo: any, isLogin: any, setIsLogin: any, isLoading: any, setIsLoading: any
   }) => {
-  const { name } = useMemo(() => ({
+  const { name, picture } = useMemo(() => ({
     name: userInfo?.name,
+    picture: userInfo?.picture || 'img/icon-user.svg',
   }), [userInfo]);
 
   const onGoToProfile = useCallback(() => {
@@ -92,9 +93,13 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
             <Box
               component="img"
               sx={{
-                paddingRight: "10.5px"
+                marginRight: "10.5px",
+                borderRadius: "100%",
+                flex: "0 0 24px",
               }}
-              src="img/icon-user.svg"
+              width={24}
+              height={24}
+              src={picture}
               alt="icon-user"
             />
             <Typography>{name}</Typography>
