@@ -3,7 +3,7 @@
   "description": "幫你搜集網路上的學習資源",
   "version": "0.8.0",
   "manifest_version": 3,
-  "permissions": ["storage", "identity"],
+  "permissions": ["storage", "identity", "scripting", "tabs"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "index.html",

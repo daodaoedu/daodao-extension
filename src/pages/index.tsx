@@ -46,31 +46,47 @@ const HomePage = ({
     });
 
   useLayoutEffect(() => {
-    const ogTitle = document.head.querySelector('meta[property="og:title"]') as any;
-    const tagTitle = document.head.querySelector('title')?.textContent;
-    const ogSiteName = document.head.querySelector('meta[property="og:site_name"]') as any;
-    const ogDesc = document.head.querySelector('meta[property="og:description"]') as any;
-    const ogImage = document.head.querySelector('meta[property="og:image"]') as any;
-    const url = document.head.querySelector('meta[property="og:url"]') as any;
-    const keywords = document.head.querySelector('meta[name="keywords"]') as any;
-    const image = document.head.querySelector('meta[name="image"]') as any;
-    const websiteFormData = {
-      name: ogTitle?.content || ogSiteName || tagTitle || "",
-      categoryList: [],
-      areaList: [],
-      ageList: [],
-      feeType: "",
-      about: ogDesc || "",
-      userName: "",
-      email: "",
-      image: ogImage || image,
-      url: url || "",
-      keywords: (keywords || "")
-        .split(",")
-        .map((keyword: string) => keyword.trim())
-        .filter((item: any) => item === ''),
-    };
-    setFormData(websiteFormData as any);
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const tabId = tabs[0].id;
+
+      // https://stackoverflow.com/questions/66549560/executescript-is-undefined-or-not-a-function-in-a-manifestv3-extension
+      // https://developer.chrome.com/docs/extensions/reference/scripting/
+      chrome.scripting.executeScript({
+        target: { tabId: tabId as any },
+        func: () => {
+          const ogTitle = document.head.querySelector('meta[property="og:title"]')?.getAttribute("content") as any;
+          const tagTitle = document.head.querySelector('title')?.getAttribute("content");
+          const ogSiteName = document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content") as any;
+          const ogDesc = document.head.querySelector('meta[property="og:description"]')?.getAttribute("content") as any;
+          const ogImage = document.head.querySelector('meta[property="og:image"]')?.getAttribute("content") as any;
+          const url = document.head.querySelector('meta[property="og:url"]')?.getAttribute("content") as any;
+          const keywords = document.head.querySelector('meta[name="keywords"]')?.getAttribute("content") as any;
+          const image = document.head.querySelector('meta[name="image"]')?.getAttribute("content") as any;
+          const websiteFormData = {
+            name: ogTitle?.content || ogSiteName || tagTitle || "",
+            categoryList: [],
+            areaList: [],
+            ageList: [],
+            feeType: "",
+            about: ogDesc || "",
+            userName: "",
+            email: "",
+            image: ogImage || image,
+            url: url || "",
+            keywords: (keywords || "")
+              .split(",")
+              .map((keyword: string) => keyword.trim())
+              .filter((item: any) => item === ''),
+          };
+          return websiteFormData;
+        }
+      },
+        (payload) => {
+          console.log("payload:======", payload);
+          setFormData(payload[0].result as any);
+        });
+    });
   }, []);
 
   return (
