@@ -55,21 +55,23 @@ const HomePage = ({
       chrome.scripting.executeScript({
         target: { tabId: tabId as any },
         func: () => {
+          const docTitle = document.title;
           const ogTitle = document.head.querySelector('meta[property="og:title"]')?.getAttribute("content") as any;
-          const tagTitle = document.head.querySelector('title')?.getAttribute("content");
+          const tagTitle = document.head.querySelector('title')?.innerText;
           const ogSiteName = document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content") as any;
+          const tagDesc = document.head.querySelector('meta[name="description"]')?.getAttribute("content") as any;
           const ogDesc = document.head.querySelector('meta[property="og:description"]')?.getAttribute("content") as any;
           const ogImage = document.head.querySelector('meta[property="og:image"]')?.getAttribute("content") as any;
           const url = document.head.querySelector('meta[property="og:url"]')?.getAttribute("content") as any;
           const keywords = document.head.querySelector('meta[name="keywords"]')?.getAttribute("content") as any;
           const image = document.head.querySelector('meta[name="image"]')?.getAttribute("content") as any;
           const websiteFormData = {
-            name: ogTitle?.content || ogSiteName || tagTitle || "",
+            name: docTitle || tagTitle || ogTitle?.content || ogSiteName || "",
             categoryList: [],
             areaList: [],
             ageList: [],
             feeType: "",
-            about: ogDesc || "",
+            about: tagDesc || ogDesc || "",
             userName: "",
             email: "",
             image: ogImage || image,
