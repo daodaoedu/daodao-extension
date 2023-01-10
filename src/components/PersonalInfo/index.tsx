@@ -171,7 +171,7 @@ const PersonalInfo = (
                 "code": false,
                 "color": "default"
               },
-              "plain_text": "kagi",
+              "plain_text": name,
               "href": null
             }
           ]
