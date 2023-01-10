@@ -73,7 +73,7 @@ export const CATEGORIES = [
       'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmF0dXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
   },
   {
-    label: '藝術',
+    label: '藝術與設計',
     key: 'art',
     value: 'art',
     image:
