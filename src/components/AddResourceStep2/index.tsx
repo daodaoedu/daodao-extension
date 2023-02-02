@@ -186,15 +186,20 @@ const AddResourcesStep2 = (
       },
       // "url": "https://www.notion.so/kagi-5d9590f27014431fb0c21ca4444b808e"
     };
-    return fetch("https://api.daoedu.tw/notion/addresource",
-      {
-        method: "POST",
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(res => {
-        console.log("res: ", res);
-      })
+    chrome.identity.getAuthToken({ interactive: false }, (token) => {
+      return fetch("https://api.daoedu.tw/notion/addresource",
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(res => {
+          console.log("res: ", res);
+        })
+    });
   }, [formData, isLogin, userInfo]);
 
   const onSubmit = useCallback(() => {
