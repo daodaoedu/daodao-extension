@@ -23,7 +23,6 @@ const AddResourcesStep2 = (
     userInfo: any,
   }) => {
 
-
   const isDisabled = useMemo(() => (
     formData.name === ''
     && formData.categoryList.length === 0

@@ -38,7 +38,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
             borderTop: "1px solid #dbdbdb",
             marginTop: "24px"
           }}>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               justifyContent: "flex-end",
@@ -56,7 +56,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
               alt="icon-user"
             />
             <Skeleton variant="text" width={60} />
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     )
@@ -78,7 +78,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
             borderTop: "1px solid #dbdbdb",
             marginTop: "24px"
           }}>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               justifyContent: "flex-end",
@@ -103,7 +103,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
               alt="icon-user"
             />
             <Typography>{name}</Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     );
@@ -124,7 +124,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
           borderTop: "1px solid #dbdbdb",
           marginTop: "24px"
         }}>
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             justifyContent: "flex-end",
@@ -149,7 +149,7 @@ const Footer = ({ currentStep, setRootStep, setPrevStepList, userInfo, setUserIn
             {` / `}
             登入
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
