@@ -71,6 +71,7 @@ const FinishedAddResource = (
           }}>
           感謝你貢獻學習資源！
           我們會接著進行審核，審核通過後就就可以在網站上看到你新增的資源囉！
+          未來也將會開放會員專屬的新增資源連動功能，敬請期待！
         </Typography>
       </Box>
       <Box sx={{ margin: "24px 0", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
