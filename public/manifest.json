@@ -1,7 +1,7 @@
 {
   "name": "蒐集資源小幫手｜島島阿學",
   "description": "幫你搜集網路上的學習資源",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "manifest_version": 3,
   "permissions": ["storage", "identity", "scripting", "tabs"],
   "host_permissions": ["<all_urls>"],
