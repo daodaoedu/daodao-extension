@@ -1,7 +1,7 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import React, { useImperativeHandle, useRef, useState, useCallback } from "react";
-import { CATEGORIES, MENU_STEP } from "../../constants/form";
+import { CATEGORIES, MENU_STEP, FEE } from "../../constants/form";
 import toast from "react-hot-toast";
 
 const PersonalInfo = (
@@ -24,7 +24,7 @@ const PersonalInfo = (
   }) => {
 
   const onSubmitForm = useCallback(async () => {
-    const { image, url, about, name } = formData;
+    const { image, url, feeType, about, name, userUrl } = formData;
     const userName = (isLogin ? userInfo?.name : formData?.userName) || "";
     const email = (isLogin ? userInfo?.email : formData?.email) || "";
     const areaList = (formData?.areaList || []).map(({ label }: any) => ({ name: label }));
@@ -101,15 +101,21 @@ const PersonalInfo = (
           "type": "url",
           "url": url || "https://www.daoedu.tw"
         },
-        // "費用": {
-        //   "id": "h%7B%3Dv",
-        //   "type": "select",
-        //   "select": {
-        //     "id": "KAo|",
-        //     "name": "部分免費",
-        //     "color": "pink"
-        //   }
-        // },
+        "個人頁面": {
+          "id": "%5E%3A%7By",
+          "type": "url",
+          "url": userUrl || ""
+        },
+        "費用": {
+          "id": "h%7B%3Dv",
+          "type": "select",
+          "select": {
+            "id": "KAo|",
+            "name": FEE.find(item => item?.value === feeType)?.label || ""
+            ,
+            "color": "pink"
+          }
+        },
         // "影片": {
         //   "id": "jC%3CM",
         //   "type": "url",
@@ -291,6 +297,24 @@ const PersonalInfo = (
           }}
         >
           <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的 E-mail</Typography>
+          <TextField
+            sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
+            value={formData.email}
+            onChange={(event) => setFormData((state: any) => ({ ...state, email: event.target.value }))}
+          />
+        </Box>
+        <Box
+          component="li"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            marginTop: "20px"
+          }}
+        >
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的個人頁面（選填）</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '12px', fontWeight: 700, margin: "8px 0" }}>如果你想要推廣自己的個人頁面，我們可以幫你推廣，未來預設為使用者的個人頁面</Typography>
           <TextField
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
             value={formData.email}

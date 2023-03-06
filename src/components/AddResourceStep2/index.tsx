@@ -30,7 +30,7 @@ const AddResourcesStep2 = (
     , [formData]);
 
   const onSubmitForm = useCallback(async () => {
-    const { image, url, about, name } = formData;
+    const { image, url, about, name, feeType, userUrl } = formData;
     const userName = (isLogin ? userInfo?.name : formData?.userName) || "";
     const email = (isLogin ? userInfo?.email : formData?.email) || "";
     const areaList = (formData?.areaList || []).map(({ label }: any) => ({ name: label }));
@@ -107,15 +107,20 @@ const AddResourcesStep2 = (
           "type": "url",
           "url": url || "https://www.daoedu.tw"
         },
-        // "費用": {
-        //   "id": "h%7B%3Dv",
-        //   "type": "select",
-        //   "select": {
-        //     "id": "KAo|",
-        //     "name": "部分免費",
-        //     "color": "pink"
-        //   }
-        // },
+        "個人頁面": {
+          "type": "url",
+          "url": userUrl || ""
+        },
+        "費用": {
+          "id": "h%7B%3Dv",
+          "type": "select",
+          "select": {
+            "id": "KAo|",
+            "name": FEE.find(item => item?.value === feeType)?.label || ""
+            ,
+            "color": "pink"
+          }
+        },
         // "影片": {
         //   "id": "jC%3CM",
         //   "type": "url",
