@@ -1,7 +1,7 @@
 {
   "name": "多元學習蒐集資源小幫手｜島島阿學",
   "description": "快速幫你搜集網路上看到的學習資源，與夥伴們在平台上面共享互助與學習。",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "manifest_version": 3,
   "permissions": ["storage", "identity", "scripting", "tabs"],
   "host_permissions": ["<all_urls>"],
