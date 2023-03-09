@@ -58,7 +58,7 @@ const FinishedAddResource = (
             color: "#293A3D",
           }}
         >
-          新增完成！
+          新增完成！ Added！
         </Typography>
       </Box>
       <Box sx={{ margin: "20px 0 20px 0" }}>
@@ -72,8 +72,26 @@ const FinishedAddResource = (
           感謝你貢獻學習資源！
           我們會接著進行審核，審核通過後就就可以在網站上看到你新增的資源囉！
           未來也將會開放會員專屬的新增資源連動功能，敬請期待！
+          Thank you for contributing learning resources!
+          We will continue to review, and after the review is passed, you can see your newly added resources on the website!
+          In the future, the new resource linkage function exclusive to members will also be opened, so stay tuned!
         </Typography>
       </Box>
+      <Box sx={{ margin: "10px 0 10px 0" }}>
+        <Box
+          component="a"
+          href="https://forms.gle/JHP4nv3QYTma8QdV7"
+          target="_blank"
+          sx={{
+            fontWeight: 400,
+            fontSize: "14px",
+            lineHeight: "140%",
+            color: "#536166",
+          }}>
+          歡迎填寫使用者回饋 Welcome to give some feedback.
+        </Box>
+      </Box>
+
       <Box sx={{ margin: "24px 0", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
         <Typography
           component="a"
@@ -88,7 +106,7 @@ const FinishedAddResource = (
             textAlign: 'center',
 
           }}>
-          查看所有資源
+          查看所有資源 Check All Resources
         </Typography>
       </Box>
       <Box
@@ -114,7 +132,7 @@ const FinishedAddResource = (
           onClick={onClose}
         // disabled={isDisabled}
         >
-          關閉
+          關閉 Close
         </Button>
       </Box>
     </Box>

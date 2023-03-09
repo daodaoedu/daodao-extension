@@ -65,7 +65,7 @@ const PersonalInfo = (
             color: "#293A3D",
           }}
         >
-          個人資訊
+          個人資訊 Personal Information
         </Typography>
       </Box>
       <Box sx={{ margin: "20px" }}>
@@ -76,7 +76,7 @@ const PersonalInfo = (
             lineHeight: "140%",
             color: "#536166",
           }}>
-          歡迎留下你的個人資訊，你的名稱將會顯示在資源頁面上，讓其他使用者能認識身為貢獻者的你。
+          歡迎留下你的個人資訊，你的名稱將會顯示在資源頁面上，讓其他使用者能認識身為貢獻者的你。You are welcome to leave your personal information, your name will be displayed on the resource page, so that other users can know you as a contributor.
         </Typography>
       </Box>
 
@@ -93,7 +93,7 @@ const PersonalInfo = (
             alignItems: "flex-start"
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的名稱</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的名稱 Your Name</Typography>
           <TextField
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
             value={formData.userName}
@@ -127,8 +127,8 @@ const PersonalInfo = (
             marginTop: "20px"
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的個人頁面（選填）</Typography>
-          <Typography sx={{ color: "#293A3D", fontSize: '12px', fontWeight: 700, margin: "8px 0" }}>如果你想要推廣自己的個人頁面，我們可以幫你推廣，未來預設為使用者的個人頁面</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>您的個人頁面 Your Page</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '12px', fontWeight: 700, margin: "8px 0" }}>如果你想要推廣自己的個人頁面，我們可以幫你推廣，未來預設為使用者的個人頁面 If you want to promote your own personal page, we can help you promote it, and it will be defaulted as the user's personal page in the future.</Typography>
           <TextField
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
             value={formData.userUrl}
@@ -157,7 +157,7 @@ const PersonalInfo = (
           }}
           onClick={() => onSubmit(MENU_STEP.ADD_PERSONAL_INFO)}
         >
-          下一步
+          下一步 Next
         </Button>
       </Box>
     </Box>

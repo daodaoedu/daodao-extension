@@ -71,7 +71,7 @@ const AddResources = (
               alignItems: "flex-start"
             }}
           >
-            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>資源名稱</Typography>
+            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>資源名稱 Resource Name</Typography>
             <TextField
               sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
               value={formData.name}
@@ -88,7 +88,7 @@ const AddResources = (
               marginTop: "20px",
             }}
           >
-            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>類型（複選）</Typography>
+            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>類型 Type（複選 / Multiple）</Typography>
             <Autocomplete
               multiple
               value={formData.categoryList}
@@ -123,7 +123,7 @@ const AddResources = (
               alignItems: "flex-start",
               marginTop: "20px",
             }}>
-            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>領域（複選）</Typography>
+            <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>領域 Area（複選 / Multiple）</Typography>
             <Autocomplete
               multiple
               value={formData.areaList}
@@ -175,7 +175,7 @@ const AddResources = (
           onClick={onSubmit}
           disabled={isDisabled}
         >
-          下一步
+          下一步 Next
         </Button>
       </Box>
     </Box>

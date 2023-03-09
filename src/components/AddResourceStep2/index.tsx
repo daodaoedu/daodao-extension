@@ -95,7 +95,7 @@ const AddResourcesStep2 = (
             width: "100%",
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>費用</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>費用 Fee</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -144,7 +144,7 @@ const AddResourcesStep2 = (
             width: "100%",
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>適合年齡</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>適合年齡 Age</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -248,7 +248,7 @@ const AddResourcesStep2 = (
             width: "100%",
           }}
         >
-          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>資源介紹</Typography>
+          <Typography sx={{ color: "#293A3D", fontSize: '16px', fontWeight: 700 }}>資源介紹 Description</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -266,7 +266,7 @@ const AddResourcesStep2 = (
                 borderRadius: '8px',
                 borderColor: 'rgb(0,0,0,0.87)',
               }}
-              placeholder="寫下關於資源的介紹，讓其他島民更認識這個資源喔！也可以多描述一下使用上的經驗！"
+              placeholder="寫下關於資源的介紹，讓其他島民更認識這個資源喔！也可以多描述一下使用上的經驗！Write an introduction about the resource, so that other islanders can know more about this resource! You can also describe your experience in using it more!"
               value={formData.about}
               onChange={(event) => {
                 setFormData((state: any) => ({ ...state, about: event.target.value }));
@@ -299,7 +299,7 @@ const AddResourcesStep2 = (
           onClick={() => onSubmit(MENU_STEP.ADD_RESOURCE_STEP2)}
           disabled={isDisabled}
         >
-          下一步
+          下一步 Next
         </Button>
       </Box>
     </Box>
