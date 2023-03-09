@@ -20,9 +20,9 @@ const AddResources = (
   }) => {
 
   const isDisabled = useMemo(() => (
-    formData.feeType === ''
-    && formData.ageList.length === 0
-    && formData.about === '')
+    formData.name === ''
+    || formData.categoryList.length === 0
+    || formData.areaList.length === 0)
     , [formData]);
 
   const onSubmit = useCallback(() => {
@@ -173,7 +173,7 @@ const AddResources = (
             }
           }}
           onClick={onSubmit}
-        // disabled={isDisabled}
+          disabled={isDisabled}
         >
           下一步
         </Button>

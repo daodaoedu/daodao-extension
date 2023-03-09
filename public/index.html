@@ -33,6 +33,14 @@
     <title>蒐集資源小幫手｜島島阿學</title>
   </head>
   <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const body = document.querySelector('body');
+          body.addEventListener('click', function (event) {
+            event.stopPropagation();
+          });
+        });
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

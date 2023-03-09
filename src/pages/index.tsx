@@ -1,6 +1,6 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useCallback } from "react";
 import StepWizard from 'react-step-wizard';
-import { MENU_STEP } from "../constants/form";
+import { MENU_STEP, FEE } from "../constants/form";
 import Profile from "../components/Profile";
 import Login from "../components/Login";
 import AddResource from "../components/AddResource";
@@ -10,6 +10,7 @@ import FinishedAddResource from "../components/FinishedAddResource";
 import { Box } from "@mui/material";
 import Navigation from "../shared/components/Navigation";
 import Footer from "../shared/components/Footer";
+import toast from "react-hot-toast";
 
 const HomePage = ({
   userInfo, setUserInfo, isLogin, setIsLogin, isLoading, setIsLoading
@@ -94,6 +95,195 @@ const HomePage = ({
     }
   }, []);
 
+  const onSubmitForm = useCallback(async () => {
+    const { image, url, feeType, about, name, userUrl } = formData;
+    const userName = (isLogin ? userInfo?.name : formData?.userName) || "匿名";
+    const email = (isLogin ? userInfo?.email : formData?.email) || "無";
+    const areaList = (formData?.areaList || []).map(({ label }: any) => ({ name: label }));
+    const categoryList = (formData?.categoryList || []).map(({ label }: any) => ({ name: label }));
+    const ageList = (formData?.ageList || []).map((label: any) => ({ name: label }));
+    // const keywords = (formData?.keywords || []).map((keyword: any) => ({ name: keyword }));
+    let payload: any = {
+      "parent": {
+        "database_id": "ecd5616c101c4ab085d45777e397fb18"
+      },
+      "properties": {
+        "資源類型": {
+          "type": "multi_select",
+          "multi_select": areaList,
+        },
+        "創建者": {
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "name": userName,
+            }
+          ]
+        },
+        "縮圖": {
+          "type": "files",
+          "files": [
+            {
+              "name": image || 'https://www.daoedu.tw/preview.webp',
+              "type": "external",
+              "external": {
+                "url": image || 'https://www.daoedu.tw/preview.webp'
+              }
+            }
+          ]
+        },
+        "領域名稱": {
+          "type": "multi_select",
+          "multi_select": categoryList
+        },
+        "補充資源": {
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "連結": {
+          "type": "url",
+          "url": url || "https://www.daoedu.tw"
+        },
+        "費用": {
+          "type": "select",
+          "select": {
+            "name": FEE.find(item => item?.value === feeType)?.label || ""
+            ,
+            "color": "pink"
+          }
+        },
+        // "影片": {
+        //   "id": "jC%3CM",
+        //   "type": "url",
+        //   "url": null
+        // },
+        "介紹": {
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": about,
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": about,
+              "href": null
+            }
+          ]
+        },
+        "地區": {
+          "type": "multi_select",
+          "multi_select": []
+        },
+        "年齡層": {
+          "type": "multi_select",
+          "multi_select": ageList,
+        },
+        "資源名稱": {
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": name,
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": name,
+              "href": null
+            }
+          ]
+        }
+      },
+      // "url": "https://www.notion.so/kagi-5d9590f27014431fb0c21ca4444b808e"
+    };
+
+    if (userUrl) {
+      payload.properties["個人頁面"] = {
+        "type": "url",
+        "url": userUrl || ""
+      };
+    }
+
+    if (email) {
+      payload.properties["創建者聯絡方式"] = {
+        "type": "rich_text",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": email,
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": email,
+            "href": null
+          }
+        ]
+      };
+    }
+
+    return fetch("https://api.daoedu.tw/notion/addresource",
+      {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log("res: ", res);
+      })
+  }, [formData, isLogin, userInfo]);
+
+  const onSubmit = useCallback((currentStep) => {
+
+    if (isLogin) {
+      toast.promise(onSubmitForm().then(() => {
+        setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
+        setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO] as any);
+      }), {
+        success: '新增資源成功！',
+        error: '新增資源失敗，請稍後重試',
+        loading: '新增資源中...',
+      })
+    } else {
+      if (currentStep === MENU_STEP.ADD_PERSONAL_INFO) {
+        toast.promise(onSubmitForm().then(() => {
+          setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
+          setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO] as any);
+        }), {
+          success: '新增資源成功！',
+          error: '新增資源失敗，請稍後重試',
+          loading: '新增資源中...',
+        })
+      } else {
+        setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
+        setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2] as any);
+      }
+    }
+  }, [isLogin, onSubmitForm]);
+
   return (
     <Box
       sx={{
@@ -145,6 +335,7 @@ const HomePage = ({
           setPrevStepList={setPrevStepList}
           isLogin={isLogin}
           userInfo={userInfo}
+          onSubmit={onSubmit}
         />
         <PersonalInfo
           formData={formData}
@@ -154,6 +345,7 @@ const HomePage = ({
           setPrevStepList={setPrevStepList}
           isLogin={isLogin}
           userInfo={userInfo}
+          onSubmit={onSubmit}
         />
         <FinishedAddResource
           formData={formData}

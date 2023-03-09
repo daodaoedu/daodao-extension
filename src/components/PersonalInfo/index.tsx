@@ -1,8 +1,6 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import React, { useImperativeHandle, useRef, useState, useCallback } from "react";
-import { CATEGORIES, MENU_STEP, FEE } from "../../constants/form";
-import toast from "react-hot-toast";
+import { MENU_STEP } from "../../constants/form";
 
 const PersonalInfo = (
   {
@@ -13,6 +11,7 @@ const PersonalInfo = (
     setPrevStepList,
     isLogin,
     userInfo,
+    onSubmit,
   }: {
     formData: any,
     prevStepList: any,
@@ -21,193 +20,8 @@ const PersonalInfo = (
     setPrevStepList: any,
     isLogin: any,
     userInfo: any,
+    onSubmit: any,
   }) => {
-
-  const onSubmitForm = useCallback(async () => {
-    const { image, url, feeType, about, name, userUrl } = formData;
-    const userName = (isLogin ? userInfo?.name : formData?.userName) || "";
-    const email = (isLogin ? userInfo?.email : formData?.email) || "";
-    const areaList = (formData?.areaList || []).map(({ label }: any) => ({ name: label }));
-    const categoryList = (formData?.categoryList || []).map(({ label }: any) => ({ name: label }));
-    const ageList = (formData?.ageList || []).map((label: any) => ({ name: label }));
-    // const keywords = (formData?.keywords || []).map((keyword: any) => ({ name: keyword }));
-    const payload = {
-      "parent": {
-        "database_id": "ecd5616c101c4ab085d45777e397fb18"
-      },
-      "properties": {
-        "資源類型": {
-          "id": "%3C%3Dko",
-          "type": "multi_select",
-          "multi_select": areaList,
-        },
-        "創建者": {
-          "id": "A%7DLo",
-          "type": "multi_select",
-          "multi_select": [
-            {
-              "name": userName,
-            }
-          ]
-        },
-        "創建者聯絡方式": {
-          "id": "A%7DLo",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": email,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": email,
-              "href": null
-            }
-          ]
-        },
-        "縮圖": {
-          "id": "TZ_W",
-          "type": "files",
-          "files": [
-            {
-              "name": image || 'https://www.daoedu.tw/preview.webp',
-              "type": "external",
-              "external": {
-                "url": image || 'https://www.daoedu.tw/preview.webp'
-              }
-            }
-          ]
-        },
-        "領域名稱": {
-          "id": "Vv%3Ew",
-          "type": "multi_select",
-          "multi_select": categoryList
-        },
-        "補充資源": {
-          "id": "%5Bn%60T",
-          "type": "rich_text",
-          "rich_text": []
-        },
-        "連結": {
-          "id": "%5E%3A%7By",
-          "type": "url",
-          "url": url || "https://www.daoedu.tw"
-        },
-        "個人頁面": {
-          "id": "%5E%3A%7By",
-          "type": "url",
-          "url": userUrl || ""
-        },
-        "費用": {
-          "id": "h%7B%3Dv",
-          "type": "select",
-          "select": {
-            "id": "KAo|",
-            "name": FEE.find(item => item?.value === feeType)?.label || ""
-            ,
-            "color": "pink"
-          }
-        },
-        // "影片": {
-        //   "id": "jC%3CM",
-        //   "type": "url",
-        //   "url": null
-        // },
-        "介紹": {
-          "id": "k_Vg",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": about,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": about,
-              "href": null
-            }
-          ]
-        },
-        // "標籤": {
-        //   "id": "nWGj",
-        //   "type": "multi_select",
-        //   "multi_select": keywords
-        // },
-        "地區": {
-          "id": "pai%5E",
-          "type": "multi_select",
-          "multi_select": []
-        },
-        "年齡層": {
-          "id": "wS%3Cy",
-          "type": "multi_select",
-          "multi_select": ageList,
-        },
-        "資源名稱": {
-          "id": "title",
-          "type": "title",
-          "title": [
-            {
-              "type": "text",
-              "text": {
-                "content": name,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": name,
-              "href": null
-            }
-          ]
-        }
-      },
-      // "url": "https://www.notion.so/kagi-5d9590f27014431fb0c21ca4444b808e"
-    };
-    return fetch("https://api.daoedu.tw/notion/addresource",
-      {
-        method: "POST",
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(res => {
-        console.log("res: ", res);
-      })
-  }, [formData, isLogin, userInfo]);
-
-  const onSubmit = useCallback(() => {
-    toast.promise(onSubmitForm().then(() => {
-      setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
-      setPrevStepList((state: any) => [...state, MENU_STEP.ADD_PERSONAL_INFO]);
-    }), {
-      success: '新增資源成功！',
-      error: '新增資源失敗，請稍後重試',
-      loading: '新增資源中...',
-    })
-
-  }, [setPrevStepList, setRootStep, onSubmitForm]);
-
   return (
     <Box sx={{ padding: "24px", }}>
       <Box
@@ -317,8 +131,8 @@ const PersonalInfo = (
           <Typography sx={{ color: "#293A3D", fontSize: '12px', fontWeight: 700, margin: "8px 0" }}>如果你想要推廣自己的個人頁面，我們可以幫你推廣，未來預設為使用者的個人頁面</Typography>
           <TextField
             sx={{ width: "100%", marginTop: "10px", backgroundColor: "#fff" }}
-            value={formData.email}
-            onChange={(event) => setFormData((state: any) => ({ ...state, email: event.target.value }))}
+            value={formData.userUrl}
+            onChange={(event) => setFormData((state: any) => ({ ...state, userUrl: event.target.value }))}
           />
         </Box>
       </Box>
@@ -341,7 +155,7 @@ const PersonalInfo = (
             border: "#ffffff",
             boxShadow: "0px 4px 10px rgba(89, 182, 178, 0.5)",
           }}
-          onClick={onSubmit}
+          onClick={() => onSubmit(MENU_STEP.ADD_PERSONAL_INFO)}
         >
           下一步
         </Button>

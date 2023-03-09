@@ -1,8 +1,7 @@
 import { ArrowBackIos } from "@mui/icons-material";
 import { Box, Typography, Button, TextareaAutosize } from "@mui/material";
-import { useCallback, useMemo } from "react";
-import { MENU_STEP, FEE, LEARNIGN_STEP } from "../../constants/form";
-import toast from "react-hot-toast";
+import { useMemo } from "react";
+import { FEE, LEARNIGN_STEP, MENU_STEP } from "../../constants/form";
 
 const AddResourcesStep2 = (
   {
@@ -13,6 +12,7 @@ const AddResourcesStep2 = (
     setPrevStepList,
     isLogin,
     userInfo,
+    onSubmit,
   }: {
     formData: any,
     prevStepList: string[],
@@ -21,208 +21,14 @@ const AddResourcesStep2 = (
     setPrevStepList: any,
     isLogin: any,
     userInfo: any,
+    onSubmit: any,
   }) => {
 
   const isDisabled = useMemo(() => (
-    formData.name === ''
-    && formData.categoryList.length === 0
-    && formData.areaList.length === 0)
+    formData.feeType === ''
+    || formData.ageList.length === 0
+    || formData.about === '')
     , [formData]);
-
-  const onSubmitForm = useCallback(async () => {
-    const { image, url, about, name, feeType, userUrl } = formData;
-    const userName = (isLogin ? userInfo?.name : formData?.userName) || "";
-    const email = (isLogin ? userInfo?.email : formData?.email) || "";
-    const areaList = (formData?.areaList || []).map(({ label }: any) => ({ name: label }));
-    const categoryList = (formData?.categoryList || []).map(({ label }: any) => ({ name: label }));
-    const ageList = (formData?.ageList || []).map((label: any) => ({ name: label }));
-    // const keywords = (formData?.keywords || []).map((keyword: any) => ({ name: keyword }));
-    const payload = {
-      "parent": {
-        "database_id": "ecd5616c101c4ab085d45777e397fb18"
-      },
-      "properties": {
-        "資源類型": {
-          "id": "%3C%3Dko",
-          "type": "multi_select",
-          "multi_select": areaList,
-        },
-        "創建者": {
-          "id": "A%7DLo",
-          "type": "multi_select",
-          "multi_select": [
-            {
-              "name": userName,
-            }
-          ]
-        },
-        "創建者聯絡方式": {
-          "id": "A%7DLo",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": email,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": email,
-              "href": null
-            }
-          ]
-        },
-        "縮圖": {
-          "id": "TZ_W",
-          "type": "files",
-          "files": [
-            {
-              "name": image || 'https://www.daoedu.tw/preview.webp',
-              "type": "external",
-              "external": {
-                "url": image || 'https://www.daoedu.tw/preview.webp'
-              }
-            }
-          ]
-        },
-        "領域名稱": {
-          "id": "Vv%3Ew",
-          "type": "multi_select",
-          "multi_select": categoryList
-        },
-        "補充資源": {
-          "id": "%5Bn%60T",
-          "type": "rich_text",
-          "rich_text": []
-        },
-        "連結": {
-          "id": "%5E%3A%7By",
-          "type": "url",
-          "url": url || "https://www.daoedu.tw"
-        },
-        "個人頁面": {
-          "type": "url",
-          "url": userUrl || ""
-        },
-        "費用": {
-          "id": "h%7B%3Dv",
-          "type": "select",
-          "select": {
-            "id": "KAo|",
-            "name": FEE.find(item => item?.value === feeType)?.label || ""
-            ,
-            "color": "pink"
-          }
-        },
-        // "影片": {
-        //   "id": "jC%3CM",
-        //   "type": "url",
-        //   "url": null
-        // },
-        "介紹": {
-          "id": "k_Vg",
-          "type": "rich_text",
-          "rich_text": [
-            {
-              "type": "text",
-              "text": {
-                "content": about,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": about,
-              "href": null
-            }
-          ]
-        },
-        // "標籤": {
-        //   "id": "nWGj",
-        //   "type": "multi_select",
-        //   "multi_select": keywords
-        // },
-        "地區": {
-          "id": "pai%5E",
-          "type": "multi_select",
-          "multi_select": []
-        },
-        "年齡層": {
-          "id": "wS%3Cy",
-          "type": "multi_select",
-          "multi_select": ageList,
-        },
-        "資源名稱": {
-          "id": "title",
-          "type": "title",
-          "title": [
-            {
-              "type": "text",
-              "text": {
-                "content": name,
-                "link": null
-              },
-              "annotations": {
-                "bold": false,
-                "italic": false,
-                "strikethrough": false,
-                "underline": false,
-                "code": false,
-                "color": "default"
-              },
-              "plain_text": name,
-              "href": null
-            }
-          ]
-        }
-      },
-      // "url": "https://www.notion.so/kagi-5d9590f27014431fb0c21ca4444b808e"
-    };
-    chrome.identity.getAuthToken({ interactive: false }, (token) => {
-      return fetch("https://api.daoedu.tw/notion/addresource",
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(res => res.json())
-        .then(res => {
-          console.log("res: ", res);
-        })
-    });
-  }, [formData, isLogin, userInfo]);
-
-  const onSubmit = useCallback(() => {
-    if (isLogin) {
-      toast.promise(onSubmitForm().then(() => {
-        setRootStep(MENU_STEP.FINISHED_ADD_RESOURCE);
-        setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
-      }), {
-        success: '新增資源成功！',
-        error: '新增資源失敗，請稍後重試',
-        loading: '新增資源中...',
-      })
-
-    } else {
-      setRootStep(MENU_STEP.ADD_PERSONAL_INFO);
-      setPrevStepList((state: any) => [...state, MENU_STEP.ADD_RESOURCE_STEP2]);
-    }
-  }, [isLogin, onSubmitForm, setRootStep, setPrevStepList]);
-
 
   return (
     <Box sx={{ padding: "24px", }}>
@@ -490,8 +296,8 @@ const AddResourcesStep2 = (
               backgroundColor: "#eee !important",
             }
           }}
-          onClick={onSubmit}
-        // disabled={isDisabled}
+          onClick={() => onSubmit(MENU_STEP.ADD_RESOURCE_STEP2)}
+          disabled={isDisabled}
         >
           下一步
         </Button>
